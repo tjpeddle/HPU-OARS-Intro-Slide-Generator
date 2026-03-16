@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HPU OARS Intro Slide Generator - Full Customization</title>
+    <title>HPU OARS Intro Slide Generator</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -132,189 +132,43 @@
             background: #666;
         }
         
-        /* Slide Container - 1920x1080 for video */
-        .slide-container {
-            width: 1920px;
-            height: 1080px;
+        /* Canvas container */
+        .canvas-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
             margin: 40px auto;
-            transform-origin: top center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        #previewCanvas {
+            max-width: 100%;
+            height: auto;
             border-radius: 8px;
-            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
         
-        /* Wrapper to center and scale the slide properly */
-        .slide-wrapper {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            overflow: hidden;
-        }
-        
-        .intro-slide {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #330072 0%, #9678D3 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* Decorative elements */
-        .intro-slide::before {
-            content: '';
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 50%;
-            top: -200px;
-            right: -200px;
-        }
-        
-        .intro-slide::after {
-            content: '';
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 50%;
-            bottom: -100px;
-            left: -100px;
-        }
-        
-        .content-box {
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 32px;
-            padding: 100px 120px;
-            max-width: 1400px;
-            width: 90%;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-            box-shadow: 0 40px 120px rgba(0, 0, 0, 0.4);
-        }
-        
-        .university-name {
-            font-size: 5rem;
-            font-weight: 700;
-            color: #330072;
-            margin-bottom: 30px;
-            letter-spacing: -2px;
-        }
-        
-        .divider {
-            width: 400px;
-            height: 6px;
-            background: linear-gradient(90deg, #330072 0%, #9678D3 100%);
-            margin: 0 auto 40px auto;
-            border-radius: 3px;
-        }
-        
-        .department-name {
-            font-size: 2.8rem;
-            font-weight: 500;
-            color: #9678D3;
-            margin-bottom: 20px;
-        }
-        
-        .department-acronym {
-            font-size: 2rem;
-            font-weight: 600;
-            color: #330072;
-            letter-spacing: 4px;
-            margin-bottom: 60px;
-        }
-        
-        .tutorial-title {
-            font-size: 3.5rem;
-            font-weight: 600;
-            color: #330072;
-            margin-bottom: 30px;
-            padding-top: 50px;
-            border-top: 3px solid rgba(51, 0, 114, 0.15);
-        }
-        
-        .tutorial-subtitle {
-            font-size: 2rem;
-            font-weight: 400;
-            color: #666;
-            line-height: 1.5;
-        }
-        
-        /* Responsive scaling - scale down to fit screen */
-        @media (max-width: 1950px) {
-            .slide-container {
-                transform: scale(0.7);
-                margin: 20px auto;
-            }
-        }
-        
-        @media (max-width: 1400px) {
-            .slide-container {
-                transform: scale(0.55);
-                margin: 10px auto;
-            }
-        }
-        
-        @media (max-width: 1100px) {
-            .slide-container {
-                transform: scale(0.45);
-                margin: 5px auto;
-            }
-        }
-        
-        @media (max-width: 900px) {
-            .slide-container {
-                transform: scale(0.35);
-                margin: 0 auto;
-            }
+        /* Hidden canvas for full-size rendering */
+        #exportCanvas {
+            display: none;
         }
     </style>
 </head>
 <body>
     <div class="controls">
-        <h2>🎬 HPU OARS Intro Slide Generator - Full Customization</h2>
-        <p style="color: #666; margin-bottom: 20px;">Customize every element! Changes update in real-time. <strong>Scroll down to see the full slide preview.</strong></p>
+        <h2>🎬 HPU OARS Intro Slide Generator</h2>
+        <p style="color: #666; margin-bottom: 20px;">Customize every element! Changes update in real-time.</p>
         
-        <div style="background: #f8f8f8; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
-            <h3 style="margin: 0 0 15px 0; color: #330072;">✏️ Customize Section Labels (Optional)</h3>
-            <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">Change the labels below if you want different section names in your controls:</p>
-            
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div>
-                    <label style="display: block; font-weight: 600; color: #666; margin-bottom: 5px; font-size: 0.85rem;">Label for "University Name":</label>
-                    <input type="text" id="labelUniName" value="University Name" style="padding: 8px; border: 2px solid #ddd; border-radius: 6px; width: 100%;">
-                </div>
-                <div>
-                    <label style="display: block; font-weight: 600; color: #666; margin-bottom: 5px; font-size: 0.85rem;">Label for "Department Name":</label>
-                    <input type="text" id="labelDeptName" value="Department Name" style="padding: 8px; border: 2px solid #ddd; border-radius: 6px; width: 100%;">
-                </div>
-                <div>
-                    <label style="display: block; font-weight: 600; color: #666; margin-bottom: 5px; font-size: 0.85rem;">Label for "OARS":</label>
-                    <input type="text" id="labelOARS" value="OARS (Acronym)" style="padding: 8px; border: 2px solid #ddd; border-radius: 6px; width: 100%;">
-                </div>
-                <div>
-                    <label style="display: block; font-weight: 600; color: #666; margin-bottom: 5px; font-size: 0.85rem;">Label for "Tutorial Title":</label>
-                    <input type="text" id="labelTitle" value="Tutorial Title" style="padding: 8px; border: 2px solid #ddd; border-radius: 6px; width: 100%;">
-                </div>
-            </div>
-            <button onclick="updateLabels()" style="margin-top: 15px; background: #9678D3; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600;">✓ Apply Label Changes</button>
-        </div>
-        
-        <h3>🏛️ <span id="headerUniName">University Name</span></h3>
+        <h3>🏛️ University Name</h3>
         
         <div class="form-group">
             <label>Text</label>
-            <input type="text" id="uniNameText" value="High Point University">
+            <input type="text" id="uniNameText" value="HIGH POINT UNIVERSITY">
         </div>
         
         <div class="form-group">
             <label>Font Size</label>
-            <input type="range" id="uniNameSize" min="3" max="8" step="0.1" value="5">
-            <span class="range-display" id="uniNameSizeDisplay">5.0rem</span>
+            <input type="range" id="uniNameSize" min="60" max="150" step="1" value="100">
+            <span class="range-display" id="uniNameSizeDisplay">100px</span>
         </div>
         
         <div class="form-group">
@@ -340,22 +194,14 @@
         </div>
         
         <div class="form-group">
-            <label>Color (Gradient Start)</label>
+            <label>Color</label>
             <div class="color-input-group">
-                <input type="color" id="dividerColor1" value="#330072">
-                <input type="text" id="dividerColor1Text" value="#330072">
+                <input type="color" id="dividerColor" value="#330072">
+                <input type="text" id="dividerColorText" value="#330072">
             </div>
         </div>
         
-        <div class="form-group">
-            <label>Color (Gradient End)</label>
-            <div class="color-input-group">
-                <input type="color" id="dividerColor2" value="#9678D3">
-                <input type="text" id="dividerColor2Text" value="#9678D3">
-            </div>
-        </div>
-        
-        <h3>🏢 <span id="headerDeptName">Department Name</span></h3>
+        <h3>🏢 Department Name</h3>
         
         <div class="form-group">
             <label>Text</label>
@@ -364,8 +210,8 @@
         
         <div class="form-group">
             <label>Font Size</label>
-            <input type="range" id="deptSize" min="1.5" max="4.5" step="0.1" value="2.8">
-            <span class="range-display" id="deptSizeDisplay">2.8rem</span>
+            <input type="range" id="deptSize" min="30" max="90" step="1" value="56">
+            <span class="range-display" id="deptSizeDisplay">56px</span>
         </div>
         
         <div class="form-group">
@@ -376,7 +222,7 @@
             </div>
         </div>
         
-        <h3>🔤 <span id="headerOARS">OARS (Acronym)</span></h3>
+        <h3>🔤 OARS</h3>
         
         <div class="form-group">
             <label>Text</label>
@@ -385,8 +231,8 @@
         
         <div class="form-group">
             <label>Font Size</label>
-            <input type="range" id="oarsSize" min="1" max="4" step="0.1" value="2">
-            <span class="range-display" id="oarsSizeDisplay">2.0rem</span>
+            <input type="range" id="oarsSize" min="20" max="80" step="1" value="40">
+            <span class="range-display" id="oarsSizeDisplay">40px</span>
         </div>
         
         <div class="form-group">
@@ -399,21 +245,21 @@
         
         <div class="form-group">
             <label>Letter Spacing (pixels)</label>
-            <input type="range" id="oarsSpacing" min="0" max="12" step="1" value="4">
-            <span class="range-display" id="oarsSpacingDisplay">4px</span>
+            <input type="range" id="oarsSpacing" min="0" max="20" step="1" value="8">
+            <span class="range-display" id="oarsSpacingDisplay">8px</span>
         </div>
         
-        <h3>📝 <span id="headerTitle">Tutorial Title</span></h3>
+        <h3>📝 Tutorial Title</h3>
         
         <div class="form-group">
             <label>Title Text</label>
-            <input type="text" id="tutorialTitle" value="Interactive Video Tutorial">
+            <input type="text" id="tutorialTitle" value="CAA Video Tutorial">
         </div>
         
         <div class="form-group">
             <label>Font Size</label>
-            <input type="range" id="titleSize" min="2" max="5" step="0.1" value="3.5">
-            <span class="range-display" id="titleSizeDisplay">3.5rem</span>
+            <input type="range" id="titleSize" min="40" max="100" step="1" value="70">
+            <span class="range-display" id="titleSizeDisplay">70px</span>
         </div>
         
         <div class="form-group">
@@ -433,8 +279,8 @@
         
         <div class="form-group">
             <label>Font Size</label>
-            <input type="range" id="subtitleSize" min="1" max="3" step="0.1" value="2">
-            <span class="range-display" id="subtitleSizeDisplay">2.0rem</span>
+            <input type="range" id="subtitleSize" min="20" max="60" step="1" value="40">
+            <span class="range-display" id="subtitleSizeDisplay">40px</span>
         </div>
         
         <div class="form-group">
@@ -446,211 +292,263 @@
         </div>
         
         <div style="margin-top: 30px; padding-top: 20px; border-top: 3px solid #f0f0f0;">
-            <button class="btn" onclick="updateSlide()">🔄 Update Preview</button>
             <button class="btn btn-reset" onclick="resetDefaults()">↩️ Reset Defaults</button>
             <button class="btn btn-secondary" onclick="downloadSlide()">📥 Download PNG (1920x1080)</button>
-            
-            <details style="margin-top: 20px;">
-                <summary style="cursor: pointer; color: #666; font-weight: 600;">💡 Alternative: Manual Screenshot Method</summary>
-                <div style="margin-top: 15px; padding: 15px; background: #f8f8f8; border-radius: 8px; color: #666; font-size: 0.9rem;">
-                    <p style="margin-bottom: 10px;"><strong>If the download button doesn't work perfectly:</strong></p>
-                    <ol style="margin-left: 20px; line-height: 1.8;">
-                        <li>Press <strong>F11</strong> to enter fullscreen mode</li>
-                        <li>Scroll down so the slide fills your screen</li>
-                        <li>Take a screenshot (Windows: Win+Shift+S, Mac: Cmd+Shift+4)</li>
-                        <li>Press <strong>F11</strong> again to exit fullscreen</li>
-                        <li>Crop/resize the screenshot to 1920x1080 in your photo editor</li>
-                    </ol>
-                </div>
-            </details>
         </div>
     </div>
     
-    <div class="slide-wrapper">
-        <div class="slide-container" id="slideContainer">
-            <div class="intro-slide">
-                <div class="content-box">
-                    <div class="university-name" id="displayUniName">High Point University</div>
-                    <div class="divider" id="displayDivider"></div>
-                    <div class="department-name" id="displayDept">Office of Accessibility Resources and Services</div>
-                    <div class="department-acronym" id="displayOARS">OARS</div>
-                    <div class="tutorial-title" id="displayTitle">Interactive Video Tutorial</div>
-                    <div class="tutorial-subtitle" id="displaySubtitle"></div>
-                </div>
-            </div>
-        </div>
+    <div class="canvas-container">
+        <canvas id="previewCanvas" width="1920" height="1080"></canvas>
     </div>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <canvas id="exportCanvas" width="1920" height="1080"></canvas>
+    
     <script>
-        function updateLabels() {
-            // Update section header labels
-            document.getElementById('headerUniName').textContent = document.getElementById('labelUniName').value || 'University Name';
-            document.getElementById('headerDeptName').textContent = document.getElementById('labelDeptName').value || 'Department Name';
-            document.getElementById('headerOARS').textContent = document.getElementById('labelOARS').value || 'OARS (Acronym)';
-            document.getElementById('headerTitle').textContent = document.getElementById('labelTitle').value || 'Tutorial Title';
+        const previewCanvas = document.getElementById('previewCanvas');
+        const exportCanvas = document.getElementById('exportCanvas');
+        const previewCtx = previewCanvas.getContext('2d');
+        const exportCtx = exportCanvas.getContext('2d');
+        
+        function drawSlide(ctx) {
+            const width = 1920;
+            const height = 1080;
+            
+            // Clear canvas
+            ctx.clearRect(0, 0, width, height);
+            
+            // Draw purple gradient background
+            const gradient = ctx.createLinearGradient(0, 0, width, height);
+            gradient.addColorStop(0, '#330072');
+            gradient.addColorStop(1, '#9678D3');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, width, height);
+            
+            // Draw decorative circles
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+            ctx.beginPath();
+            ctx.arc(width - 200, -200, 600, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.03)';
+            ctx.beginPath();
+            ctx.arc(-100, height + 100, 400, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Draw white content box
+            const boxX = 160;
+            const boxY = 150;
+            const boxWidth = 1600;
+            const boxHeight = 780;
+            const boxRadius = 32;
+            
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.98)';
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+            ctx.shadowBlur = 60;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 20;
+            
+            ctx.beginPath();
+            ctx.moveTo(boxX + boxRadius, boxY);
+            ctx.lineTo(boxX + boxWidth - boxRadius, boxY);
+            ctx.quadraticCurveTo(boxX + boxWidth, boxY, boxX + boxWidth, boxY + boxRadius);
+            ctx.lineTo(boxX + boxWidth, boxY + boxHeight - boxRadius);
+            ctx.quadraticCurveTo(boxX + boxWidth, boxY + boxHeight, boxX + boxWidth - boxRadius, boxY + boxHeight);
+            ctx.lineTo(boxX + boxRadius, boxY + boxHeight);
+            ctx.quadraticCurveTo(boxX, boxY + boxHeight, boxX, boxY + boxHeight - boxRadius);
+            ctx.lineTo(boxX, boxY + boxRadius);
+            ctx.quadraticCurveTo(boxX, boxY, boxX + boxRadius, boxY);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Reset shadow
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+            
+            // Get values
+            const uniText = document.getElementById('uniNameText').value || 'HIGH POINT UNIVERSITY';
+            const uniSize = parseInt(document.getElementById('uniNameSize').value);
+            const uniColor = document.getElementById('uniNameColor').value;
+            
+            const divWidth = parseInt(document.getElementById('dividerWidth').value);
+            const divHeight = parseInt(document.getElementById('dividerHeight').value);
+            const divColor = document.getElementById('dividerColor').value;
+            
+            const deptText = document.getElementById('deptText').value || 'Office of Accessibility Resources and Services';
+            const deptSize = parseInt(document.getElementById('deptSize').value);
+            const deptColor = document.getElementById('deptColor').value;
+            
+            const oarsText = document.getElementById('oarsText').value || 'OARS';
+            const oarsSize = parseInt(document.getElementById('oarsSize').value);
+            const oarsColor = document.getElementById('oarsColor').value;
+            const oarsSpacing = parseInt(document.getElementById('oarsSpacing').value);
+            
+            const titleText = document.getElementById('tutorialTitle').value || 'Interactive Video Tutorial';
+            const titleSize = parseInt(document.getElementById('titleSize').value);
+            const titleColor = document.getElementById('titleColor').value;
+            
+            const subtitleText = document.getElementById('tutorialSubtitle').value;
+            const subtitleSize = parseInt(document.getElementById('subtitleSize').value);
+            const subtitleColor = document.getElementById('subtitleColor').value;
+            
+            let yPos = 280;
+            
+            // Draw university name
+            ctx.font = `700 ${uniSize}px Outfit, sans-serif`;
+            ctx.fillStyle = uniColor;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(uniText, width / 2, yPos);
+            yPos += uniSize + 40;
+            
+            // Draw divider
+            const divX = (width - divWidth) / 2;
+            ctx.fillStyle = divColor;
+            ctx.fillRect(divX, yPos, divWidth, divHeight);
+            yPos += divHeight + 50;
+            
+            // Draw department name
+            ctx.font = `500 ${deptSize}px Outfit, sans-serif`;
+            ctx.fillStyle = deptColor;
+            ctx.fillText(deptText, width / 2, yPos);
+            yPos += deptSize + 30;
+            
+            // Draw OARS with letter spacing
+            ctx.font = `600 ${oarsSize}px Outfit, sans-serif`;
+            ctx.fillStyle = oarsColor;
+            
+            if (oarsSpacing > 0) {
+                // Manual letter spacing
+                const letters = oarsText.split('');
+                const totalWidth = letters.reduce((sum, letter) => sum + ctx.measureText(letter).width, 0) + (oarsSpacing * (letters.length - 1));
+                let xPos = (width - totalWidth) / 2;
+                
+                letters.forEach(letter => {
+                    ctx.fillText(letter, xPos + ctx.measureText(letter).width / 2, yPos);
+                    xPos += ctx.measureText(letter).width + oarsSpacing;
+                });
+            } else {
+                ctx.fillText(oarsText, width / 2, yPos);
+            }
+            yPos += oarsSize + 70;
+            
+            // Draw separator line
+            ctx.strokeStyle = 'rgba(51, 0, 114, 0.15)';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(300, yPos);
+            ctx.lineTo(width - 300, yPos);
+            ctx.stroke();
+            yPos += 60;
+            
+            // Draw tutorial title
+            ctx.font = `600 ${titleSize}px Outfit, sans-serif`;
+            ctx.fillStyle = titleColor;
+            ctx.fillText(titleText, width / 2, yPos);
+            yPos += titleSize + 40;
+            
+            // Draw subtitle if exists
+            if (subtitleText) {
+                ctx.font = `400 ${subtitleSize}px Outfit, sans-serif`;
+                ctx.fillStyle = subtitleColor;
+                
+                // Word wrap for subtitle
+                const maxWidth = 1400;
+                const words = subtitleText.split(' ');
+                let line = '';
+                const lines = [];
+                
+                words.forEach(word => {
+                    const testLine = line + word + ' ';
+                    const metrics = ctx.measureText(testLine);
+                    if (metrics.width > maxWidth && line !== '') {
+                        lines.push(line);
+                        line = word + ' ';
+                    } else {
+                        line = testLine;
+                    }
+                });
+                lines.push(line);
+                
+                lines.forEach((line, index) => {
+                    ctx.fillText(line.trim(), width / 2, yPos + (index * subtitleSize * 1.4));
+                });
+            }
         }
         
         function updateSlide() {
-            // University Name
-            const uniNameText = document.getElementById('uniNameText').value || 'High Point University';
-            const uniNameSize = document.getElementById('uniNameSize').value;
-            const uniNameColor = document.getElementById('uniNameColor').value;
-            document.getElementById('uniNameSizeDisplay').textContent = uniNameSize + 'rem';
-            document.getElementById('uniNameColorText').value = uniNameColor;
-            document.getElementById('displayUniName').textContent = uniNameText;
-            document.getElementById('displayUniName').style.fontSize = uniNameSize + 'rem';
-            document.getElementById('displayUniName').style.color = uniNameColor;
+            // Update all display values
+            document.getElementById('uniNameSizeDisplay').textContent = document.getElementById('uniNameSize').value + 'px';
+            document.getElementById('uniNameColorText').value = document.getElementById('uniNameColor').value;
             
-            // Divider
-            const dividerWidth = document.getElementById('dividerWidth').value;
-            const dividerHeight = document.getElementById('dividerHeight').value;
-            const dividerColor1 = document.getElementById('dividerColor1').value;
-            const dividerColor2 = document.getElementById('dividerColor2').value;
-            document.getElementById('dividerWidthDisplay').textContent = dividerWidth + 'px';
-            document.getElementById('dividerHeightDisplay').textContent = dividerHeight + 'px';
-            document.getElementById('dividerColor1Text').value = dividerColor1;
-            document.getElementById('dividerColor2Text').value = dividerColor2;
-            document.getElementById('displayDivider').style.width = dividerWidth + 'px';
-            document.getElementById('displayDivider').style.height = dividerHeight + 'px';
-            document.getElementById('displayDivider').style.background = `linear-gradient(90deg, ${dividerColor1} 0%, ${dividerColor2} 100%)`;
+            document.getElementById('dividerWidthDisplay').textContent = document.getElementById('dividerWidth').value + 'px';
+            document.getElementById('dividerHeightDisplay').textContent = document.getElementById('dividerHeight').value + 'px';
+            document.getElementById('dividerColorText').value = document.getElementById('dividerColor').value;
             
-            // Department Name
-            const deptText = document.getElementById('deptText').value || 'Office of Accessibility Resources and Services';
-            const deptSize = document.getElementById('deptSize').value;
-            const deptColor = document.getElementById('deptColor').value;
-            document.getElementById('deptSizeDisplay').textContent = deptSize + 'rem';
-            document.getElementById('deptColorText').value = deptColor;
-            document.getElementById('displayDept').textContent = deptText;
-            document.getElementById('displayDept').style.fontSize = deptSize + 'rem';
-            document.getElementById('displayDept').style.color = deptColor;
+            document.getElementById('deptSizeDisplay').textContent = document.getElementById('deptSize').value + 'px';
+            document.getElementById('deptColorText').value = document.getElementById('deptColor').value;
             
-            // OARS
-            const oarsText = document.getElementById('oarsText').value || 'OARS';
-            const oarsSize = document.getElementById('oarsSize').value;
-            const oarsColor = document.getElementById('oarsColor').value;
-            const oarsSpacing = document.getElementById('oarsSpacing').value;
-            document.getElementById('oarsSizeDisplay').textContent = oarsSize + 'rem';
-            document.getElementById('oarsColorText').value = oarsColor;
-            document.getElementById('oarsSpacingDisplay').textContent = oarsSpacing + 'px';
-            document.getElementById('displayOARS').textContent = oarsText;
-            document.getElementById('displayOARS').style.fontSize = oarsSize + 'rem';
-            document.getElementById('displayOARS').style.color = oarsColor;
-            document.getElementById('displayOARS').style.letterSpacing = oarsSpacing + 'px';
+            document.getElementById('oarsSizeDisplay').textContent = document.getElementById('oarsSize').value + 'px';
+            document.getElementById('oarsColorText').value = document.getElementById('oarsColor').value;
+            document.getElementById('oarsSpacingDisplay').textContent = document.getElementById('oarsSpacing').value + 'px';
             
-            // Tutorial Title
-            const titleText = document.getElementById('tutorialTitle').value || 'Interactive Video Tutorial';
-            const titleSize = document.getElementById('titleSize').value;
-            const titleColor = document.getElementById('titleColor').value;
-            document.getElementById('titleSizeDisplay').textContent = titleSize + 'rem';
-            document.getElementById('titleColorText').value = titleColor;
-            document.getElementById('displayTitle').textContent = titleText;
-            document.getElementById('displayTitle').style.fontSize = titleSize + 'rem';
-            document.getElementById('displayTitle').style.color = titleColor;
+            document.getElementById('titleSizeDisplay').textContent = document.getElementById('titleSize').value + 'px';
+            document.getElementById('titleColorText').value = document.getElementById('titleColor').value;
             
-            // Tutorial Subtitle
-            const subtitleText = document.getElementById('tutorialSubtitle').value;
-            const subtitleSize = document.getElementById('subtitleSize').value;
-            const subtitleColor = document.getElementById('subtitleColor').value;
-            document.getElementById('subtitleSizeDisplay').textContent = subtitleSize + 'rem';
-            document.getElementById('subtitleColorText').value = subtitleColor;
-            document.getElementById('displaySubtitle').textContent = subtitleText;
-            document.getElementById('displaySubtitle').style.fontSize = subtitleSize + 'rem';
-            document.getElementById('displaySubtitle').style.color = subtitleColor;
-            document.getElementById('displaySubtitle').style.display = subtitleText ? 'block' : 'none';
+            document.getElementById('subtitleSizeDisplay').textContent = document.getElementById('subtitleSize').value + 'px';
+            document.getElementById('subtitleColorText').value = document.getElementById('subtitleColor').value;
+            
+            // Redraw canvas
+            drawSlide(previewCtx);
         }
         
         function resetDefaults() {
-            // University Name
-            document.getElementById('uniNameText').value = 'High Point University';
-            document.getElementById('uniNameSize').value = 5;
+            document.getElementById('uniNameText').value = 'HIGH POINT UNIVERSITY';
+            document.getElementById('uniNameSize').value = 100;
             document.getElementById('uniNameColor').value = '#330072';
             
-            // Divider
             document.getElementById('dividerWidth').value = 400;
             document.getElementById('dividerHeight').value = 6;
-            document.getElementById('dividerColor1').value = '#330072';
-            document.getElementById('dividerColor2').value = '#9678D3';
+            document.getElementById('dividerColor').value = '#330072';
             
-            // Department
             document.getElementById('deptText').value = 'Office of Accessibility Resources and Services';
-            document.getElementById('deptSize').value = 2.8;
+            document.getElementById('deptSize').value = 56;
             document.getElementById('deptColor').value = '#9678D3';
             
-            // OARS
             document.getElementById('oarsText').value = 'OARS';
-            document.getElementById('oarsSize').value = 2;
+            document.getElementById('oarsSize').value = 40;
             document.getElementById('oarsColor').value = '#330072';
-            document.getElementById('oarsSpacing').value = 4;
+            document.getElementById('oarsSpacing').value = 8;
             
-            // Title
             document.getElementById('tutorialTitle').value = 'Interactive Video Tutorial';
-            document.getElementById('titleSize').value = 3.5;
+            document.getElementById('titleSize').value = 70;
             document.getElementById('titleColor').value = '#330072';
             
-            // Subtitle
             document.getElementById('tutorialSubtitle').value = '';
-            document.getElementById('subtitleSize').value = 2;
+            document.getElementById('subtitleSize').value = 40;
             document.getElementById('subtitleColor').value = '#666666';
             
             updateSlide();
         }
         
-        async function downloadSlide() {
-            const slideElement = document.querySelector('.intro-slide');
-            const container = document.querySelector('.slide-container');
+        function downloadSlide() {
+            // Draw to export canvas at full resolution
+            drawSlide(exportCtx);
             
-            // Store original values
-            const originalTransform = container.style.transform;
-            const originalMargin = container.style.margin;
-            
-            // Temporarily set to full size and remove transform
-            container.style.transform = 'none';
-            container.style.margin = '0';
-            
-            // Hide decorative pseudo-elements by temporarily changing background
-            const originalBefore = window.getComputedStyle(slideElement, '::before').getPropertyValue('background');
-            const originalAfter = window.getComputedStyle(slideElement, '::after').getPropertyValue('background');
-            
-            try {
-                // Wait a moment for layout to settle
-                await new Promise(resolve => setTimeout(resolve, 100));
+            // Convert to blob and download
+            exportCanvas.toBlob(function(blob) {
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'hpu-oars-intro-slide.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
                 
-                const canvas = await html2canvas(slideElement, {
-                    width: 1920,
-                    height: 1080,
-                    scale: 1,
-                    backgroundColor: null,
-                    logging: false,
-                    useCORS: true,
-                    allowTaint: true,
-                    foreignObjectRendering: false,
-                    imageTimeout: 0
-                });
-                
-                // Restore original styling
-                container.style.transform = originalTransform;
-                container.style.margin = originalMargin;
-                
-                canvas.toBlob(function(blob) {
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'hpu-oars-intro-slide.png';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                });
-                
-                alert('✅ Slide downloaded at 1920x1080! Check your Downloads folder.');
-            } catch (error) {
-                console.error('Download error:', error);
-                // Restore on error
-                container.style.transform = originalTransform;
-                container.style.margin = originalMargin;
-                alert('❌ Download failed. Error: ' + error.message);
-            }
+                alert('✅ Slide downloaded at 1920x1080!');
+            });
         }
         
         // Add event listeners for real-time updates
