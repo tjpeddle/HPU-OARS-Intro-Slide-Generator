@@ -585,12 +585,19 @@
         async function downloadSlide() {
             const slideElement = document.querySelector('.intro-slide');
             
+            // Temporarily remove scaling for capture
+            const container = document.querySelector('.slide-container');
+            const originalTransform = container.style.transform;
+            container.style.transform = 'scale(1)';
+            
             try {
                 const canvas = await html2canvas(slideElement, {
                     width: 1920,
                     height: 1080,
-                    scale: 2,
-                    backgroundColor: null
+                    scale: 1,
+                    backgroundColor: null,
+                    logging: false,
+                    useCORS: true
                 });
                 
                 canvas.toBlob(function(blob) {
@@ -602,11 +609,15 @@
                     a.click();
                     document.body.removeChild(a);
                     URL.revokeObjectURL(url);
+                    
+                    // Restore scaling
+                    container.style.transform = originalTransform;
                 });
                 
-                alert('✅ Slide downloaded! Check your Downloads folder.');
+                alert('✅ Slide downloaded at 1920x1080! Check your Downloads folder.');
             } catch (error) {
                 console.error('Download error:', error);
+                container.style.transform = originalTransform;
                 alert('❌ Download failed. Try right-clicking the slide and "Save image as..."');
             }
         }
