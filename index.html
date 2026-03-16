@@ -179,7 +179,7 @@
             </div>
         </div>
         
-        <h3>➖ Divider Line</h3>
+        <h3>➖ First Divider Line (Under University Name)</h3>
         
         <div class="form-group">
             <label>Width (pixels)</label>
@@ -202,9 +202,9 @@
         </div>
         
         <div class="form-group">
-            <label>Space Below Divider (pixels)</label>
-            <input type="range" id="dividerSpaceBelow" min="20" max="100" step="5" value="50">
-            <span class="range-display" id="dividerSpaceBelowDisplay">50px</span>
+            <label>Space Below First Divider (pixels)</label>
+            <input type="range" id="dividerSpaceBelow" min="20" max="150" step="5" value="70">
+            <span class="range-display" id="dividerSpaceBelowDisplay">70px</span>
         </div>
         
         <h3>🏢 Department Name</h3>
@@ -230,8 +230,8 @@
         
         <div class="form-group">
             <label>Space Below Department Name (pixels)</label>
-            <input type="range" id="deptSpaceBelow" min="20" max="100" step="5" value="30">
-            <span class="range-display" id="deptSpaceBelowDisplay">30px</span>
+            <input type="range" id="deptSpaceBelow" min="20" max="150" step="5" value="100">
+            <span class="range-display" id="deptSpaceBelowDisplay">100px</span>
         </div>
         
         <h3>🔤 OARS</h3>
@@ -239,6 +239,27 @@
         <div class="form-group">
             <label>Text</label>
             <input type="text" id="oarsText" value="OARS">
+        </div>
+        
+        <div class="form-group">
+            <label>Font Size</label>
+            <input type="range" id="oarsSize" min="20" max="80" step="1" value="40">
+            <span class="range-display" id="oarsSizeDisplay">40px</span>
+        </div>
+        
+        <div class="form-group">
+            <label>Color</label>
+            <div class="color-input-group">
+                <input type="color" id="oarsColor" value="#330072">
+                <input type="text" id="oarsColorText" value="#330072">
+            </div>
+        </div>
+        
+        <h3>🔤 OARS (Optional - Leave blank to hide)</h3>
+        
+        <div class="form-group">
+            <label>Text</label>
+            <input type="text" id="oarsText" value="">
         </div>
         
         <div class="form-group">
@@ -263,8 +284,8 @@
         
         <div class="form-group">
             <label>Space Below OARS (pixels)</label>
-            <input type="range" id="oarsSpaceBelow" min="30" max="120" step="5" value="70">
-            <span class="range-display" id="oarsSpaceBelowDisplay">70px</span>
+            <input type="range" id="oarsSpaceBelow" min="30" max="150" step="5" value="100">
+            <span class="range-display" id="oarsSpaceBelowDisplay">100px</span>
         </div>
         
         <h3>➖ Second Divider Line (Above Tutorial Title)</h3>
@@ -291,8 +312,8 @@
         
         <div class="form-group">
             <label>Space Below Second Divider (pixels)</label>
-            <input type="range" id="divider2SpaceBelow" min="30" max="100" step="5" value="60">
-            <span class="range-display" id="divider2SpaceBelowDisplay">60px</span>
+            <input type="range" id="divider2SpaceBelow" min="30" max="150" step="5" value="80">
+            <span class="range-display" id="divider2SpaceBelowDisplay">80px</span>
         </div>
         
         <h3>📝 Tutorial Title</h3>
@@ -446,7 +467,7 @@
             const subtitleSize = parseInt(document.getElementById('subtitleSize').value);
             const subtitleColor = document.getElementById('subtitleColor').value;
             
-            let yPos = 280;
+            let yPos = 240;  // Changed from 280 - start higher
             
             // Draw university name
             ctx.font = `700 ${uniSize}px Outfit, sans-serif`;
@@ -454,7 +475,7 @@
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
             ctx.fillText(uniText, width / 2, yPos);
-            yPos += uniSize + 40;
+            yPos += uniSize + 50;  // Changed from 40
             
             // Draw first divider
             const divX = (width - divWidth) / 2;
@@ -468,24 +489,29 @@
             ctx.fillText(deptText, width / 2, yPos);
             yPos += deptSize + deptSpaceBelow;
             
-            // Draw OARS with letter spacing
-            ctx.font = `600 ${oarsSize}px Outfit, sans-serif`;
-            ctx.fillStyle = oarsColor;
-            
-            if (oarsSpacing > 0) {
-                // Manual letter spacing
-                const letters = oarsText.split('');
-                const totalWidth = letters.reduce((sum, letter) => sum + ctx.measureText(letter).width, 0) + (oarsSpacing * (letters.length - 1));
-                let xPos = (width - totalWidth) / 2;
+            // Draw OARS with letter spacing (only if text exists)
+            if (oarsText && oarsText.trim() !== '') {
+                ctx.font = `600 ${oarsSize}px Outfit, sans-serif`;
+                ctx.fillStyle = oarsColor;
                 
-                letters.forEach(letter => {
-                    ctx.fillText(letter, xPos + ctx.measureText(letter).width / 2, yPos);
-                    xPos += ctx.measureText(letter).width + oarsSpacing;
-                });
+                if (oarsSpacing > 0) {
+                    // Manual letter spacing
+                    const letters = oarsText.split('');
+                    const totalWidth = letters.reduce((sum, letter) => sum + ctx.measureText(letter).width, 0) + (oarsSpacing * (letters.length - 1));
+                    let xPos = (width - totalWidth) / 2;
+                    
+                    letters.forEach(letter => {
+                        ctx.fillText(letter, xPos + ctx.measureText(letter).width / 2, yPos);
+                        xPos += ctx.measureText(letter).width + oarsSpacing;
+                    });
+                } else {
+                    ctx.fillText(oarsText, width / 2, yPos);
+                }
+                yPos += oarsSize + oarsSpaceBelow;
             } else {
-                ctx.fillText(oarsText, width / 2, yPos);
+                // If no OARS text, just add minimal spacing
+                yPos += 40;  // Small gap when OARS is hidden
             }
-            yPos += oarsSize + oarsSpaceBelow;
             
             // Draw second divider line
             const div2X = (width - div2Width) / 2;
@@ -570,23 +596,23 @@
             document.getElementById('dividerWidth').value = 400;
             document.getElementById('dividerHeight').value = 6;
             document.getElementById('dividerColor').value = '#330072';
-            document.getElementById('dividerSpaceBelow').value = 50;
+            document.getElementById('dividerSpaceBelow').value = 70;
             
             document.getElementById('deptText').value = 'Office of Accessibility Resources and Services';
             document.getElementById('deptSize').value = 56;
             document.getElementById('deptColor').value = '#9678D3';
-            document.getElementById('deptSpaceBelow').value = 30;
+            document.getElementById('deptSpaceBelow').value = 100;
             
-            document.getElementById('oarsText').value = 'OARS';
+            document.getElementById('oarsText').value = '';
             document.getElementById('oarsSize').value = 40;
             document.getElementById('oarsColor').value = '#330072';
             document.getElementById('oarsSpacing').value = 8;
-            document.getElementById('oarsSpaceBelow').value = 70;
+            document.getElementById('oarsSpaceBelow').value = 100;
             
             document.getElementById('divider2Width').value = 1240;
             document.getElementById('divider2Height').value = 3;
             document.getElementById('divider2Color').value = '#e0d4f0';
-            document.getElementById('divider2SpaceBelow').value = 60;
+            document.getElementById('divider2SpaceBelow').value = 80;
             
             document.getElementById('tutorialTitle').value = 'Interactive Video Tutorial';
             document.getElementById('titleSize').value = 70;
