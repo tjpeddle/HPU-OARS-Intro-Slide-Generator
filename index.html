@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HPU OARS Intro Slide Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>HPU OARS Intro Slide - Simple & Clean</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -16,37 +16,19 @@
             font-family: 'Outfit', sans-serif;
             background: #1a1f2e;
             padding: 20px;
-            overflow-x: hidden;
         }
         
         .controls {
             background: white;
             padding: 30px;
             border-radius: 12px;
-            margin-bottom: 30px;
-            max-width: 1400px;
+            max-width: 900px;
             margin: 0 auto 30px auto;
-            max-height: 500px;
-            overflow-y: auto;
         }
         
         .controls h2 {
             color: #330072;
             margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-        
-        .controls h3 {
-            color: #330072;
-            margin: 25px 0 15px 0;
-            font-size: 1.2rem;
-            padding-top: 20px;
-            border-top: 2px solid #f0f0f0;
-        }
-        
-        .controls h3:first-of-type {
-            border-top: none;
-            padding-top: 0;
         }
         
         .form-group {
@@ -58,11 +40,9 @@
             font-weight: 600;
             color: #330072;
             margin-bottom: 8px;
-            font-size: 0.95rem;
         }
         
         .form-group input[type="text"],
-        .form-group input[type="number"],
         .form-group textarea {
             width: 100%;
             padding: 12px;
@@ -72,39 +52,9 @@
             font-family: 'Outfit', sans-serif;
         }
         
-        .form-group input[type="range"] {
-            width: calc(100% - 80px);
-        }
-        
         .form-group textarea {
             resize: vertical;
             min-height: 60px;
-        }
-        
-        .color-input-group {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .color-input-group input[type="color"] {
-            width: 60px;
-            height: 40px;
-            border: 2px solid #9678D3;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        
-        .color-input-group input[type="text"] {
-            flex: 1;
-        }
-        
-        .range-display {
-            display: inline-block;
-            min-width: 70px;
-            color: #666;
-            font-weight: 600;
-            margin-left: 10px;
         }
         
         .btn {
@@ -124,20 +74,15 @@
             background: #9678D3;
         }
         
-        .btn-secondary {
+        .btn-download {
             background: #E87D0D;
         }
         
-        .btn-reset {
-            background: #666;
-        }
-        
-        /* Canvas container */
-        .canvas-container {
-            width: 100%;
+        .preview-container {
+            max-width: 1400px;
+            margin: 0 auto;
             display: flex;
             justify-content: center;
-            margin: 40px auto;
         }
         
         #previewCanvas {
@@ -147,7 +92,6 @@
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
         
-        /* Hidden canvas for full-size rendering */
         #exportCanvas {
             display: none;
         }
@@ -156,215 +100,32 @@
 <body>
     <div class="controls">
         <h2>🎬 HPU OARS Intro Slide Generator</h2>
-        <p style="color: #666; margin-bottom: 20px;">Customize every element! Changes update in real-time.</p>
-        
-        <h3>🏛️ University Name</h3>
+        <p style="color: #666; margin-bottom: 25px;">Simple, clean intro slides for your videos</p>
         
         <div class="form-group">
-            <label>Text</label>
-            <input type="text" id="uniNameText" value="HIGH POINT UNIVERSITY">
+            <label>University Name</label>
+            <input type="text" id="uniName" value="HIGH POINT UNIVERSITY">
         </div>
         
         <div class="form-group">
-            <label>Font Size</label>
-            <input type="range" id="uniNameSize" min="60" max="150" step="1" value="100">
-            <span class="range-display" id="uniNameSizeDisplay">100px</span>
+            <label>Department Name</label>
+            <input type="text" id="deptName" value="Office of Accessibility Resources and Services">
         </div>
         
         <div class="form-group">
-            <label>Color</label>
-            <div class="color-input-group">
-                <input type="color" id="uniNameColor" value="#330072">
-                <input type="text" id="uniNameColorText" value="#330072">
-            </div>
-        </div>
-        
-        <h3>➖ First Divider Line (Under University Name)</h3>
-        
-        <div class="form-group">
-            <label>Width (pixels)</label>
-            <input type="range" id="dividerWidth" min="200" max="800" step="10" value="400">
-            <span class="range-display" id="dividerWidthDisplay">400px</span>
-        </div>
-        
-        <div class="form-group">
-            <label>Thickness (pixels)</label>
-            <input type="range" id="dividerHeight" min="2" max="12" step="1" value="6">
-            <span class="range-display" id="dividerHeightDisplay">6px</span>
-        </div>
-        
-        <div class="form-group">
-            <label>Color</label>
-            <div class="color-input-group">
-                <input type="color" id="dividerColor" value="#330072">
-                <input type="text" id="dividerColorText" value="#330072">
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label>Space Below First Divider (pixels)</label>
-            <input type="range" id="dividerSpaceBelow" min="20" max="150" step="5" value="70">
-            <span class="range-display" id="dividerSpaceBelowDisplay">70px</span>
-        </div>
-        
-        <h3>🏢 Department Name</h3>
-        
-        <div class="form-group">
-            <label>Text</label>
-            <input type="text" id="deptText" value="Office of Accessibility Resources and Services">
-        </div>
-        
-        <div class="form-group">
-            <label>Font Size</label>
-            <input type="range" id="deptSize" min="30" max="90" step="1" value="56">
-            <span class="range-display" id="deptSizeDisplay">56px</span>
-        </div>
-        
-        <div class="form-group">
-            <label>Color</label>
-            <div class="color-input-group">
-                <input type="color" id="deptColor" value="#9678D3">
-                <input type="text" id="deptColorText" value="#9678D3">
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label>Space Below Department Name (pixels)</label>
-            <input type="range" id="deptSpaceBelow" min="20" max="150" step="5" value="100">
-            <span class="range-display" id="deptSpaceBelowDisplay">100px</span>
-        </div>
-        
-        <h3>🔤 OARS</h3>
-        
-        <div class="form-group">
-            <label>Text</label>
-            <input type="text" id="oarsText" value="OARS">
-        </div>
-        
-        <div class="form-group">
-            <label>Font Size</label>
-            <input type="range" id="oarsSize" min="20" max="80" step="1" value="40">
-            <span class="range-display" id="oarsSizeDisplay">40px</span>
-        </div>
-        
-        <div class="form-group">
-            <label>Color</label>
-            <div class="color-input-group">
-                <input type="color" id="oarsColor" value="#330072">
-                <input type="text" id="oarsColorText" value="#330072">
-            </div>
-        </div>
-        
-        <h3>🔤 OARS (Optional - Leave blank to hide)</h3>
-        
-        <div class="form-group">
-            <label>Text</label>
-            <input type="text" id="oarsText" value="">
-        </div>
-        
-        <div class="form-group">
-            <label>Font Size</label>
-            <input type="range" id="oarsSize" min="20" max="80" step="1" value="40">
-            <span class="range-display" id="oarsSizeDisplay">40px</span>
-        </div>
-        
-        <div class="form-group">
-            <label>Color</label>
-            <div class="color-input-group">
-                <input type="color" id="oarsColor" value="#330072">
-                <input type="text" id="oarsColorText" value="#330072">
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label>Letter Spacing (pixels)</label>
-            <input type="range" id="oarsSpacing" min="0" max="20" step="1" value="8">
-            <span class="range-display" id="oarsSpacingDisplay">8px</span>
-        </div>
-        
-        <div class="form-group">
-            <label>Space Below OARS (pixels)</label>
-            <input type="range" id="oarsSpaceBelow" min="30" max="150" step="5" value="100">
-            <span class="range-display" id="oarsSpaceBelowDisplay">100px</span>
-        </div>
-        
-        <h3>➖ Second Divider Line (Above Tutorial Title)</h3>
-        
-        <div class="form-group">
-            <label>Width (pixels)</label>
-            <input type="range" id="divider2Width" min="200" max="1400" step="10" value="1240">
-            <span class="range-display" id="divider2WidthDisplay">1240px</span>
-        </div>
-        
-        <div class="form-group">
-            <label>Thickness (pixels)</label>
-            <input type="range" id="divider2Height" min="1" max="8" step="1" value="3">
-            <span class="range-display" id="divider2HeightDisplay">3px</span>
-        </div>
-        
-        <div class="form-group">
-            <label>Color</label>
-            <div class="color-input-group">
-                <input type="color" id="divider2Color" value="#e0d4f0">
-                <input type="text" id="divider2ColorText" value="#e0d4f0">
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label>Space Below Second Divider (pixels)</label>
-            <input type="range" id="divider2SpaceBelow" min="30" max="150" step="5" value="80">
-            <span class="range-display" id="divider2SpaceBelowDisplay">80px</span>
-        </div>
-        
-        <h3>📝 Tutorial Title</h3>
-        
-        <div class="form-group">
-            <label>Title Text</label>
+            <label>Tutorial Title</label>
             <input type="text" id="tutorialTitle" value="CAA Video Tutorial">
         </div>
         
         <div class="form-group">
-            <label>Font Size</label>
-            <input type="range" id="titleSize" min="40" max="100" step="1" value="70">
-            <span class="range-display" id="titleSizeDisplay">70px</span>
+            <label>Subtitle (optional)</label>
+            <textarea id="subtitle" placeholder="Leave blank for no subtitle"></textarea>
         </div>
         
-        <div class="form-group">
-            <label>Color</label>
-            <div class="color-input-group">
-                <input type="color" id="titleColor" value="#330072">
-                <input type="text" id="titleColorText" value="#330072">
-            </div>
-        </div>
-        
-        <h3>📄 Tutorial Subtitle (Optional)</h3>
-        
-        <div class="form-group">
-            <label>Subtitle Text</label>
-            <textarea id="tutorialSubtitle" placeholder="Leave blank for no subtitle"></textarea>
-        </div>
-        
-        <div class="form-group">
-            <label>Font Size</label>
-            <input type="range" id="subtitleSize" min="20" max="60" step="1" value="40">
-            <span class="range-display" id="subtitleSizeDisplay">40px</span>
-        </div>
-        
-        <div class="form-group">
-            <label>Color</label>
-            <div class="color-input-group">
-                <input type="color" id="subtitleColor" value="#666666">
-                <input type="text" id="subtitleColorText" value="#666666">
-            </div>
-        </div>
-        
-        <div style="margin-top: 30px; padding-top: 20px; border-top: 3px solid #f0f0f0;">
-            <button class="btn btn-reset" onclick="resetDefaults()">↩️ Reset Defaults</button>
-            <button class="btn btn-secondary" onclick="downloadSlide()">📥 Download PNG (1920x1080)</button>
-        </div>
+        <button class="btn btn-download" onclick="downloadSlide()">📥 Download PNG (1920x1080)</button>
     </div>
     
-    <div class="canvas-container">
+    <div class="preview-container">
         <canvas id="previewCanvas" width="1920" height="1080"></canvas>
     </div>
     
@@ -380,17 +141,23 @@
             const width = 1920;
             const height = 1080;
             
+            // Get values
+            const uniName = document.getElementById('uniName').value || 'HIGH POINT UNIVERSITY';
+            const deptName = document.getElementById('deptName').value || 'Office of Accessibility Resources and Services';
+            const tutorialTitle = document.getElementById('tutorialTitle').value || 'Interactive Video Tutorial';
+            const subtitle = document.getElementById('subtitle').value;
+            
             // Clear canvas
             ctx.clearRect(0, 0, width, height);
             
-            // Draw purple gradient background
+            // Purple gradient background
             const gradient = ctx.createLinearGradient(0, 0, width, height);
             gradient.addColorStop(0, '#330072');
             gradient.addColorStop(1, '#9678D3');
             ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, width, height);
             
-            // Draw decorative circles
+            // Decorative circles
             ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
             ctx.beginPath();
             ctx.arc(width - 200, -200, 600, 0, Math.PI * 2);
@@ -401,11 +168,11 @@
             ctx.arc(-100, height + 100, 400, 0, Math.PI * 2);
             ctx.fill();
             
-            // Draw white content box
+            // White content box - CENTERED VERTICALLY
             const boxX = 160;
-            const boxY = 150;
+            const boxY = 140;
             const boxWidth = 1600;
-            const boxHeight = 780;
+            const boxHeight = 800;
             const boxRadius = 32;
             
             ctx.fillStyle = 'rgba(255, 255, 255, 0.98)';
@@ -414,6 +181,7 @@
             ctx.shadowOffsetX = 0;
             ctx.shadowOffsetY = 20;
             
+            // Draw rounded rectangle
             ctx.beginPath();
             ctx.moveTo(boxX + boxRadius, boxY);
             ctx.lineTo(boxX + boxWidth - boxRadius, boxY);
@@ -433,106 +201,49 @@
             ctx.shadowOffsetX = 0;
             ctx.shadowOffsetY = 0;
             
-            // Get values
-            const uniText = document.getElementById('uniNameText').value || 'HIGH POINT UNIVERSITY';
-            const uniSize = parseInt(document.getElementById('uniNameSize').value);
-            const uniColor = document.getElementById('uniNameColor').value;
-            
-            const divWidth = parseInt(document.getElementById('dividerWidth').value);
-            const divHeight = parseInt(document.getElementById('dividerHeight').value);
-            const divColor = document.getElementById('dividerColor').value;
-            const divSpaceBelow = parseInt(document.getElementById('dividerSpaceBelow').value);
-            
-            const deptText = document.getElementById('deptText').value || 'Office of Accessibility Resources and Services';
-            const deptSize = parseInt(document.getElementById('deptSize').value);
-            const deptColor = document.getElementById('deptColor').value;
-            const deptSpaceBelow = parseInt(document.getElementById('deptSpaceBelow').value);
-            
-            const oarsText = document.getElementById('oarsText').value || 'OARS';
-            const oarsSize = parseInt(document.getElementById('oarsSize').value);
-            const oarsColor = document.getElementById('oarsColor').value;
-            const oarsSpacing = parseInt(document.getElementById('oarsSpacing').value);
-            const oarsSpaceBelow = parseInt(document.getElementById('oarsSpaceBelow').value);
-            
-            const div2Width = parseInt(document.getElementById('divider2Width').value);
-            const div2Height = parseInt(document.getElementById('divider2Height').value);
-            const div2Color = document.getElementById('divider2Color').value;
-            const div2SpaceBelow = parseInt(document.getElementById('divider2SpaceBelow').value);
-            
-            const titleText = document.getElementById('tutorialTitle').value || 'Interactive Video Tutorial';
-            const titleSize = parseInt(document.getElementById('titleSize').value);
-            const titleColor = document.getElementById('titleColor').value;
-            
-            const subtitleText = document.getElementById('tutorialSubtitle').value;
-            const subtitleSize = parseInt(document.getElementById('subtitleSize').value);
-            const subtitleColor = document.getElementById('subtitleColor').value;
-            
-            let yPos = 240;  // Changed from 280 - start higher
-            
-            // Draw university name
-            ctx.font = `700 ${uniSize}px Outfit, sans-serif`;
-            ctx.fillStyle = uniColor;
+            // Text alignment
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText(uniText, width / 2, yPos);
-            yPos += uniSize + 50;  // Changed from 40
             
-            // Draw first divider
-            const divX = (width - divWidth) / 2;
-            ctx.fillStyle = divColor;
-            ctx.fillRect(divX, yPos, divWidth, divHeight);
-            yPos += divHeight + divSpaceBelow;
+            // LAYOUT - properly spaced
+            let yPos = 280;
             
-            // Draw department name
-            ctx.font = `500 ${deptSize}px Outfit, sans-serif`;
-            ctx.fillStyle = deptColor;
-            ctx.fillText(deptText, width / 2, yPos);
-            yPos += deptSize + deptSpaceBelow;
+            // 1. University Name
+            ctx.font = '700 100px Outfit';
+            ctx.fillStyle = '#330072';
+            ctx.fillText(uniName, width / 2, yPos);
+            yPos += 160;  // Good space after uni name
             
-            // Draw OARS with letter spacing (only if text exists)
-            if (oarsText && oarsText.trim() !== '') {
-                ctx.font = `600 ${oarsSize}px Outfit, sans-serif`;
-                ctx.fillStyle = oarsColor;
+            // 2. First Divider
+            ctx.fillStyle = '#330072';
+            ctx.fillRect(760, yPos, 400, 6);
+            yPos += 100;  // Good space after divider
+            
+            // 3. Department Name
+            ctx.font = '500 56px Outfit';
+            ctx.fillStyle = '#9678D3';
+            ctx.fillText(deptName, width / 2, yPos);
+            yPos += 180;  // Big space before second divider
+            
+            // 4. Second Divider
+            ctx.fillStyle = '#e0d4f0';
+            ctx.fillRect(340, yPos, 1240, 3);
+            yPos += 100;  // Good space after divider
+            
+            // 5. Tutorial Title
+            ctx.font = '600 70px Outfit';
+            ctx.fillStyle = '#330072';
+            ctx.fillText(tutorialTitle, width / 2, yPos);
+            
+            // 6. Subtitle (if exists)
+            if (subtitle && subtitle.trim()) {
+                yPos += 110;
+                ctx.font = '400 40px Outfit';
+                ctx.fillStyle = '#666666';
                 
-                if (oarsSpacing > 0) {
-                    // Manual letter spacing
-                    const letters = oarsText.split('');
-                    const totalWidth = letters.reduce((sum, letter) => sum + ctx.measureText(letter).width, 0) + (oarsSpacing * (letters.length - 1));
-                    let xPos = (width - totalWidth) / 2;
-                    
-                    letters.forEach(letter => {
-                        ctx.fillText(letter, xPos + ctx.measureText(letter).width / 2, yPos);
-                        xPos += ctx.measureText(letter).width + oarsSpacing;
-                    });
-                } else {
-                    ctx.fillText(oarsText, width / 2, yPos);
-                }
-                yPos += oarsSize + oarsSpaceBelow;
-            } else {
-                // If no OARS text, just add minimal spacing
-                yPos += 40;  // Small gap when OARS is hidden
-            }
-            
-            // Draw second divider line
-            const div2X = (width - div2Width) / 2;
-            ctx.fillStyle = div2Color;
-            ctx.fillRect(div2X, yPos, div2Width, div2Height);
-            yPos += div2Height + div2SpaceBelow;
-            
-            // Draw tutorial title
-            ctx.font = `600 ${titleSize}px Outfit, sans-serif`;
-            ctx.fillStyle = titleColor;
-            ctx.fillText(titleText, width / 2, yPos);
-            yPos += titleSize + 40;
-            
-            // Draw subtitle if exists
-            if (subtitleText) {
-                ctx.font = `400 ${subtitleSize}px Outfit, sans-serif`;
-                ctx.fillStyle = subtitleColor;
-                
-                // Word wrap for subtitle
+                // Simple word wrap
                 const maxWidth = 1400;
-                const words = subtitleText.split(' ');
+                const words = subtitle.split(' ');
                 let line = '';
                 const lines = [];
                 
@@ -549,84 +260,17 @@
                 lines.push(line);
                 
                 lines.forEach((line, index) => {
-                    ctx.fillText(line.trim(), width / 2, yPos + (index * subtitleSize * 1.4));
+                    ctx.fillText(line.trim(), width / 2, yPos + (index * 60));
                 });
             }
         }
         
         function updateSlide() {
-            // Update all display values
-            document.getElementById('uniNameSizeDisplay').textContent = document.getElementById('uniNameSize').value + 'px';
-            document.getElementById('uniNameColorText').value = document.getElementById('uniNameColor').value;
-            
-            document.getElementById('dividerWidthDisplay').textContent = document.getElementById('dividerWidth').value + 'px';
-            document.getElementById('dividerHeightDisplay').textContent = document.getElementById('dividerHeight').value + 'px';
-            document.getElementById('dividerColorText').value = document.getElementById('dividerColor').value;
-            document.getElementById('dividerSpaceBelowDisplay').textContent = document.getElementById('dividerSpaceBelow').value + 'px';
-            
-            document.getElementById('deptSizeDisplay').textContent = document.getElementById('deptSize').value + 'px';
-            document.getElementById('deptColorText').value = document.getElementById('deptColor').value;
-            document.getElementById('deptSpaceBelowDisplay').textContent = document.getElementById('deptSpaceBelow').value + 'px';
-            
-            document.getElementById('oarsSizeDisplay').textContent = document.getElementById('oarsSize').value + 'px';
-            document.getElementById('oarsColorText').value = document.getElementById('oarsColor').value;
-            document.getElementById('oarsSpacingDisplay').textContent = document.getElementById('oarsSpacing').value + 'px';
-            document.getElementById('oarsSpaceBelowDisplay').textContent = document.getElementById('oarsSpaceBelow').value + 'px';
-            
-            document.getElementById('divider2WidthDisplay').textContent = document.getElementById('divider2Width').value + 'px';
-            document.getElementById('divider2HeightDisplay').textContent = document.getElementById('divider2Height').value + 'px';
-            document.getElementById('divider2ColorText').value = document.getElementById('divider2Color').value;
-            document.getElementById('divider2SpaceBelowDisplay').textContent = document.getElementById('divider2SpaceBelow').value + 'px';
-            
-            document.getElementById('titleSizeDisplay').textContent = document.getElementById('titleSize').value + 'px';
-            document.getElementById('titleColorText').value = document.getElementById('titleColor').value;
-            
-            document.getElementById('subtitleSizeDisplay').textContent = document.getElementById('subtitleSize').value + 'px';
-            document.getElementById('subtitleColorText').value = document.getElementById('subtitleColor').value;
-            
-            // Redraw canvas
             drawSlide(previewCtx);
         }
         
-        function resetDefaults() {
-            document.getElementById('uniNameText').value = 'HIGH POINT UNIVERSITY';
-            document.getElementById('uniNameSize').value = 100;
-            document.getElementById('uniNameColor').value = '#330072';
-            
-            document.getElementById('dividerWidth').value = 400;
-            document.getElementById('dividerHeight').value = 6;
-            document.getElementById('dividerColor').value = '#330072';
-            document.getElementById('dividerSpaceBelow').value = 70;
-            
-            document.getElementById('deptText').value = 'Office of Accessibility Resources and Services';
-            document.getElementById('deptSize').value = 56;
-            document.getElementById('deptColor').value = '#9678D3';
-            document.getElementById('deptSpaceBelow').value = 100;
-            
-            document.getElementById('oarsText').value = '';
-            document.getElementById('oarsSize').value = 40;
-            document.getElementById('oarsColor').value = '#330072';
-            document.getElementById('oarsSpacing').value = 8;
-            document.getElementById('oarsSpaceBelow').value = 100;
-            
-            document.getElementById('divider2Width').value = 1240;
-            document.getElementById('divider2Height').value = 3;
-            document.getElementById('divider2Color').value = '#e0d4f0';
-            document.getElementById('divider2SpaceBelow').value = 80;
-            
-            document.getElementById('tutorialTitle').value = 'Interactive Video Tutorial';
-            document.getElementById('titleSize').value = 70;
-            document.getElementById('titleColor').value = '#330072';
-            
-            document.getElementById('tutorialSubtitle').value = '';
-            document.getElementById('subtitleSize').value = 40;
-            document.getElementById('subtitleColor').value = '#666666';
-            
-            updateSlide();
-        }
-        
         function downloadSlide() {
-            // Draw to export canvas at full resolution
+            // Draw to export canvas
             drawSlide(exportCtx);
             
             // Convert to blob and download
@@ -640,17 +284,16 @@
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
                 
-                alert('✅ Slide downloaded at 1920x1080!');
+                alert('✅ Slide downloaded at 1920x1080! Ready for Clipchamp!');
             });
         }
         
-        // Add event listeners for real-time updates
-        const allInputs = document.querySelectorAll('input, textarea');
-        allInputs.forEach(input => {
+        // Update on any input change
+        document.querySelectorAll('input, textarea').forEach(input => {
             input.addEventListener('input', updateSlide);
         });
         
-        // Initialize
+        // Initial draw
         updateSlide();
     </script>
 </body>
