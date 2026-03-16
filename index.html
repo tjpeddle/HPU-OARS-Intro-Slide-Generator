@@ -201,6 +201,12 @@
             </div>
         </div>
         
+        <div class="form-group">
+            <label>Space Below Divider (pixels)</label>
+            <input type="range" id="dividerSpaceBelow" min="20" max="100" step="5" value="50">
+            <span class="range-display" id="dividerSpaceBelowDisplay">50px</span>
+        </div>
+        
         <h3>🏢 Department Name</h3>
         
         <div class="form-group">
@@ -220,6 +226,12 @@
                 <input type="color" id="deptColor" value="#9678D3">
                 <input type="text" id="deptColorText" value="#9678D3">
             </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Space Below Department Name (pixels)</label>
+            <input type="range" id="deptSpaceBelow" min="20" max="100" step="5" value="30">
+            <span class="range-display" id="deptSpaceBelowDisplay">30px</span>
         </div>
         
         <h3>🔤 OARS</h3>
@@ -247,6 +259,40 @@
             <label>Letter Spacing (pixels)</label>
             <input type="range" id="oarsSpacing" min="0" max="20" step="1" value="8">
             <span class="range-display" id="oarsSpacingDisplay">8px</span>
+        </div>
+        
+        <div class="form-group">
+            <label>Space Below OARS (pixels)</label>
+            <input type="range" id="oarsSpaceBelow" min="30" max="120" step="5" value="70">
+            <span class="range-display" id="oarsSpaceBelowDisplay">70px</span>
+        </div>
+        
+        <h3>➖ Second Divider Line (Above Tutorial Title)</h3>
+        
+        <div class="form-group">
+            <label>Width (pixels)</label>
+            <input type="range" id="divider2Width" min="200" max="1400" step="10" value="1240">
+            <span class="range-display" id="divider2WidthDisplay">1240px</span>
+        </div>
+        
+        <div class="form-group">
+            <label>Thickness (pixels)</label>
+            <input type="range" id="divider2Height" min="1" max="8" step="1" value="3">
+            <span class="range-display" id="divider2HeightDisplay">3px</span>
+        </div>
+        
+        <div class="form-group">
+            <label>Color</label>
+            <div class="color-input-group">
+                <input type="color" id="divider2Color" value="#e0d4f0">
+                <input type="text" id="divider2ColorText" value="#e0d4f0">
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Space Below Second Divider (pixels)</label>
+            <input type="range" id="divider2SpaceBelow" min="30" max="100" step="5" value="60">
+            <span class="range-display" id="divider2SpaceBelowDisplay">60px</span>
         </div>
         
         <h3>📝 Tutorial Title</h3>
@@ -374,15 +420,23 @@
             const divWidth = parseInt(document.getElementById('dividerWidth').value);
             const divHeight = parseInt(document.getElementById('dividerHeight').value);
             const divColor = document.getElementById('dividerColor').value;
+            const divSpaceBelow = parseInt(document.getElementById('dividerSpaceBelow').value);
             
             const deptText = document.getElementById('deptText').value || 'Office of Accessibility Resources and Services';
             const deptSize = parseInt(document.getElementById('deptSize').value);
             const deptColor = document.getElementById('deptColor').value;
+            const deptSpaceBelow = parseInt(document.getElementById('deptSpaceBelow').value);
             
             const oarsText = document.getElementById('oarsText').value || 'OARS';
             const oarsSize = parseInt(document.getElementById('oarsSize').value);
             const oarsColor = document.getElementById('oarsColor').value;
             const oarsSpacing = parseInt(document.getElementById('oarsSpacing').value);
+            const oarsSpaceBelow = parseInt(document.getElementById('oarsSpaceBelow').value);
+            
+            const div2Width = parseInt(document.getElementById('divider2Width').value);
+            const div2Height = parseInt(document.getElementById('divider2Height').value);
+            const div2Color = document.getElementById('divider2Color').value;
+            const div2SpaceBelow = parseInt(document.getElementById('divider2SpaceBelow').value);
             
             const titleText = document.getElementById('tutorialTitle').value || 'Interactive Video Tutorial';
             const titleSize = parseInt(document.getElementById('titleSize').value);
@@ -402,17 +456,17 @@
             ctx.fillText(uniText, width / 2, yPos);
             yPos += uniSize + 40;
             
-            // Draw divider
+            // Draw first divider
             const divX = (width - divWidth) / 2;
             ctx.fillStyle = divColor;
             ctx.fillRect(divX, yPos, divWidth, divHeight);
-            yPos += divHeight + 50;
+            yPos += divHeight + divSpaceBelow;
             
             // Draw department name
             ctx.font = `500 ${deptSize}px Outfit, sans-serif`;
             ctx.fillStyle = deptColor;
             ctx.fillText(deptText, width / 2, yPos);
-            yPos += deptSize + 30;
+            yPos += deptSize + deptSpaceBelow;
             
             // Draw OARS with letter spacing
             ctx.font = `600 ${oarsSize}px Outfit, sans-serif`;
@@ -431,16 +485,13 @@
             } else {
                 ctx.fillText(oarsText, width / 2, yPos);
             }
-            yPos += oarsSize + 70;
+            yPos += oarsSize + oarsSpaceBelow;
             
-            // Draw separator line
-            ctx.strokeStyle = 'rgba(51, 0, 114, 0.15)';
-            ctx.lineWidth = 3;
-            ctx.beginPath();
-            ctx.moveTo(300, yPos);
-            ctx.lineTo(width - 300, yPos);
-            ctx.stroke();
-            yPos += 60;
+            // Draw second divider line
+            const div2X = (width - div2Width) / 2;
+            ctx.fillStyle = div2Color;
+            ctx.fillRect(div2X, yPos, div2Width, div2Height);
+            yPos += div2Height + div2SpaceBelow;
             
             // Draw tutorial title
             ctx.font = `600 ${titleSize}px Outfit, sans-serif`;
@@ -485,13 +536,21 @@
             document.getElementById('dividerWidthDisplay').textContent = document.getElementById('dividerWidth').value + 'px';
             document.getElementById('dividerHeightDisplay').textContent = document.getElementById('dividerHeight').value + 'px';
             document.getElementById('dividerColorText').value = document.getElementById('dividerColor').value;
+            document.getElementById('dividerSpaceBelowDisplay').textContent = document.getElementById('dividerSpaceBelow').value + 'px';
             
             document.getElementById('deptSizeDisplay').textContent = document.getElementById('deptSize').value + 'px';
             document.getElementById('deptColorText').value = document.getElementById('deptColor').value;
+            document.getElementById('deptSpaceBelowDisplay').textContent = document.getElementById('deptSpaceBelow').value + 'px';
             
             document.getElementById('oarsSizeDisplay').textContent = document.getElementById('oarsSize').value + 'px';
             document.getElementById('oarsColorText').value = document.getElementById('oarsColor').value;
             document.getElementById('oarsSpacingDisplay').textContent = document.getElementById('oarsSpacing').value + 'px';
+            document.getElementById('oarsSpaceBelowDisplay').textContent = document.getElementById('oarsSpaceBelow').value + 'px';
+            
+            document.getElementById('divider2WidthDisplay').textContent = document.getElementById('divider2Width').value + 'px';
+            document.getElementById('divider2HeightDisplay').textContent = document.getElementById('divider2Height').value + 'px';
+            document.getElementById('divider2ColorText').value = document.getElementById('divider2Color').value;
+            document.getElementById('divider2SpaceBelowDisplay').textContent = document.getElementById('divider2SpaceBelow').value + 'px';
             
             document.getElementById('titleSizeDisplay').textContent = document.getElementById('titleSize').value + 'px';
             document.getElementById('titleColorText').value = document.getElementById('titleColor').value;
@@ -511,15 +570,23 @@
             document.getElementById('dividerWidth').value = 400;
             document.getElementById('dividerHeight').value = 6;
             document.getElementById('dividerColor').value = '#330072';
+            document.getElementById('dividerSpaceBelow').value = 50;
             
             document.getElementById('deptText').value = 'Office of Accessibility Resources and Services';
             document.getElementById('deptSize').value = 56;
             document.getElementById('deptColor').value = '#9678D3';
+            document.getElementById('deptSpaceBelow').value = 30;
             
             document.getElementById('oarsText').value = 'OARS';
             document.getElementById('oarsSize').value = 40;
             document.getElementById('oarsColor').value = '#330072';
             document.getElementById('oarsSpacing').value = 8;
+            document.getElementById('oarsSpaceBelow').value = 70;
+            
+            document.getElementById('divider2Width').value = 1240;
+            document.getElementById('divider2Height').value = 3;
+            document.getElementById('divider2Color').value = '#e0d4f0';
+            document.getElementById('divider2SpaceBelow').value = 60;
             
             document.getElementById('tutorialTitle').value = 'Interactive Video Tutorial';
             document.getElementById('titleSize').value = 70;
