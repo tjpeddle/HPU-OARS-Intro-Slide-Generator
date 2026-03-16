@@ -25,7 +25,7 @@
             margin-bottom: 30px;
             max-width: 1400px;
             margin: 0 auto 30px auto;
-            max-height: 600px;
+            max-height: 500px;
             overflow-y: auto;
         }
         
@@ -135,9 +135,11 @@
         .slide-container {
             width: 1920px;
             height: 1080px;
-            margin: 0 auto;
+            margin: 40px auto;
             transform-origin: top center;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
         }
         
         .intro-slide {
@@ -234,21 +236,24 @@
         }
         
         /* Responsive scaling */
-        @media (max-width: 2000px) {
+        @media (max-width: 2100px) {
             .slide-container {
-                transform: scale(0.7);
+                transform: scale(0.75);
+                margin: 20px auto;
             }
         }
         
-        @media (max-width: 1600px) {
+        @media (max-width: 1700px) {
             .slide-container {
-                transform: scale(0.5);
+                transform: scale(0.6);
+                margin: 20px auto;
             }
         }
         
-        @media (max-width: 1200px) {
+        @media (max-width: 1300px) {
             .slide-container {
-                transform: scale(0.4);
+                transform: scale(0.45);
+                margin: 10px auto;
             }
         }
     </style>
@@ -256,9 +261,39 @@
 <body>
     <div class="controls">
         <h2>🎬 HPU OARS Intro Slide Generator - Full Customization</h2>
-        <p style="color: #666; margin-bottom: 20px;">Customize every element of your intro slide!</p>
+        <p style="color: #666; margin-bottom: 20px;">Customize every element! Changes update in real-time. <strong>Scroll down to see the full slide preview.</strong></p>
         
-        <h3>🏛️ University Name</h3>
+        <div style="background: #f8f8f8; padding: 20px; border-radius: 8px; margin-bottom: 25px;">
+            <h3 style="margin: 0 0 15px 0; color: #330072;">✏️ Customize Section Labels (Optional)</h3>
+            <p style="color: #666; font-size: 0.9rem; margin-bottom: 15px;">Change the labels below if you want different section names in your controls:</p>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <label style="display: block; font-weight: 600; color: #666; margin-bottom: 5px; font-size: 0.85rem;">Label for "University Name":</label>
+                    <input type="text" id="labelUniName" value="University Name" style="padding: 8px; border: 2px solid #ddd; border-radius: 6px; width: 100%;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: 600; color: #666; margin-bottom: 5px; font-size: 0.85rem;">Label for "Department Name":</label>
+                    <input type="text" id="labelDeptName" value="Department Name" style="padding: 8px; border: 2px solid #ddd; border-radius: 6px; width: 100%;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: 600; color: #666; margin-bottom: 5px; font-size: 0.85rem;">Label for "OARS":</label>
+                    <input type="text" id="labelOARS" value="OARS (Acronym)" style="padding: 8px; border: 2px solid #ddd; border-radius: 6px; width: 100%;">
+                </div>
+                <div>
+                    <label style="display: block; font-weight: 600; color: #666; margin-bottom: 5px; font-size: 0.85rem;">Label for "Tutorial Title":</label>
+                    <input type="text" id="labelTitle" value="Tutorial Title" style="padding: 8px; border: 2px solid #ddd; border-radius: 6px; width: 100%;">
+                </div>
+            </div>
+            <button onclick="updateLabels()" style="margin-top: 15px; background: #9678D3; color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600;">✓ Apply Label Changes</button>
+        </div>
+        
+        <h3>🏛️ <span id="headerUniName">University Name</span></h3>
+        
+        <div class="form-group">
+            <label>Text</label>
+            <input type="text" id="uniNameText" value="High Point University">
+        </div>
         
         <div class="form-group">
             <label>Font Size</label>
@@ -304,7 +339,12 @@
             </div>
         </div>
         
-        <h3>🏢 Department Name</h3>
+        <h3>🏢 <span id="headerDeptName">Department Name</span></h3>
+        
+        <div class="form-group">
+            <label>Text</label>
+            <input type="text" id="deptText" value="Office of Accessibility Resources and Services">
+        </div>
         
         <div class="form-group">
             <label>Font Size</label>
@@ -320,7 +360,12 @@
             </div>
         </div>
         
-        <h3>🔤 OARS</h3>
+        <h3>🔤 <span id="headerOARS">OARS (Acronym)</span></h3>
+        
+        <div class="form-group">
+            <label>Text</label>
+            <input type="text" id="oarsText" value="OARS">
+        </div>
         
         <div class="form-group">
             <label>Font Size</label>
@@ -342,7 +387,7 @@
             <span class="range-display" id="oarsSpacingDisplay">4px</span>
         </div>
         
-        <h3>📝 Tutorial Title</h3>
+        <h3>📝 <span id="headerTitle">Tutorial Title</span></h3>
         
         <div class="form-group">
             <label>Title Text</label>
@@ -406,12 +451,22 @@
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script>
+        function updateLabels() {
+            // Update section header labels
+            document.getElementById('headerUniName').textContent = document.getElementById('labelUniName').value || 'University Name';
+            document.getElementById('headerDeptName').textContent = document.getElementById('labelDeptName').value || 'Department Name';
+            document.getElementById('headerOARS').textContent = document.getElementById('labelOARS').value || 'OARS (Acronym)';
+            document.getElementById('headerTitle').textContent = document.getElementById('labelTitle').value || 'Tutorial Title';
+        }
+        
         function updateSlide() {
             // University Name
+            const uniNameText = document.getElementById('uniNameText').value || 'High Point University';
             const uniNameSize = document.getElementById('uniNameSize').value;
             const uniNameColor = document.getElementById('uniNameColor').value;
             document.getElementById('uniNameSizeDisplay').textContent = uniNameSize + 'rem';
             document.getElementById('uniNameColorText').value = uniNameColor;
+            document.getElementById('displayUniName').textContent = uniNameText;
             document.getElementById('displayUniName').style.fontSize = uniNameSize + 'rem';
             document.getElementById('displayUniName').style.color = uniNameColor;
             
@@ -429,20 +484,24 @@
             document.getElementById('displayDivider').style.background = `linear-gradient(90deg, ${dividerColor1} 0%, ${dividerColor2} 100%)`;
             
             // Department Name
+            const deptText = document.getElementById('deptText').value || 'Office of Accessibility Resources and Services';
             const deptSize = document.getElementById('deptSize').value;
             const deptColor = document.getElementById('deptColor').value;
             document.getElementById('deptSizeDisplay').textContent = deptSize + 'rem';
             document.getElementById('deptColorText').value = deptColor;
+            document.getElementById('displayDept').textContent = deptText;
             document.getElementById('displayDept').style.fontSize = deptSize + 'rem';
             document.getElementById('displayDept').style.color = deptColor;
             
             // OARS
+            const oarsText = document.getElementById('oarsText').value || 'OARS';
             const oarsSize = document.getElementById('oarsSize').value;
             const oarsColor = document.getElementById('oarsColor').value;
             const oarsSpacing = document.getElementById('oarsSpacing').value;
             document.getElementById('oarsSizeDisplay').textContent = oarsSize + 'rem';
             document.getElementById('oarsColorText').value = oarsColor;
             document.getElementById('oarsSpacingDisplay').textContent = oarsSpacing + 'px';
+            document.getElementById('displayOARS').textContent = oarsText;
             document.getElementById('displayOARS').style.fontSize = oarsSize + 'rem';
             document.getElementById('displayOARS').style.color = oarsColor;
             document.getElementById('displayOARS').style.letterSpacing = oarsSpacing + 'px';
@@ -471,6 +530,7 @@
         
         function resetDefaults() {
             // University Name
+            document.getElementById('uniNameText').value = 'High Point University';
             document.getElementById('uniNameSize').value = 5;
             document.getElementById('uniNameColor').value = '#330072';
             
@@ -481,10 +541,12 @@
             document.getElementById('dividerColor2').value = '#9678D3';
             
             // Department
+            document.getElementById('deptText').value = 'Office of Accessibility Resources and Services';
             document.getElementById('deptSize').value = 2.8;
             document.getElementById('deptColor').value = '#9678D3';
             
             // OARS
+            document.getElementById('oarsText').value = 'OARS';
             document.getElementById('oarsSize').value = 2;
             document.getElementById('oarsColor').value = '#330072';
             document.getElementById('oarsSpacing').value = 4;
