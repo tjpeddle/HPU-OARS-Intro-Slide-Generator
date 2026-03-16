@@ -449,6 +449,20 @@
             <button class="btn" onclick="updateSlide()">🔄 Update Preview</button>
             <button class="btn btn-reset" onclick="resetDefaults()">↩️ Reset Defaults</button>
             <button class="btn btn-secondary" onclick="downloadSlide()">📥 Download PNG (1920x1080)</button>
+            
+            <details style="margin-top: 20px;">
+                <summary style="cursor: pointer; color: #666; font-weight: 600;">💡 Alternative: Manual Screenshot Method</summary>
+                <div style="margin-top: 15px; padding: 15px; background: #f8f8f8; border-radius: 8px; color: #666; font-size: 0.9rem;">
+                    <p style="margin-bottom: 10px;"><strong>If the download button doesn't work perfectly:</strong></p>
+                    <ol style="margin-left: 20px; line-height: 1.8;">
+                        <li>Press <strong>F11</strong> to enter fullscreen mode</li>
+                        <li>Scroll down so the slide fills your screen</li>
+                        <li>Take a screenshot (Windows: Win+Shift+S, Mac: Cmd+Shift+4)</li>
+                        <li>Press <strong>F11</strong> again to exit fullscreen</li>
+                        <li>Crop/resize the screenshot to 1920x1080 in your photo editor</li>
+                    </ol>
+                </div>
+            </details>
         </div>
     </div>
     
@@ -584,21 +598,39 @@
         
         async function downloadSlide() {
             const slideElement = document.querySelector('.intro-slide');
-            
-            // Temporarily remove scaling for capture
             const container = document.querySelector('.slide-container');
+            
+            // Store original values
             const originalTransform = container.style.transform;
-            container.style.transform = 'scale(1)';
+            const originalMargin = container.style.margin;
+            
+            // Temporarily set to full size and remove transform
+            container.style.transform = 'none';
+            container.style.margin = '0';
+            
+            // Hide decorative pseudo-elements by temporarily changing background
+            const originalBefore = window.getComputedStyle(slideElement, '::before').getPropertyValue('background');
+            const originalAfter = window.getComputedStyle(slideElement, '::after').getPropertyValue('background');
             
             try {
+                // Wait a moment for layout to settle
+                await new Promise(resolve => setTimeout(resolve, 100));
+                
                 const canvas = await html2canvas(slideElement, {
                     width: 1920,
                     height: 1080,
                     scale: 1,
                     backgroundColor: null,
                     logging: false,
-                    useCORS: true
+                    useCORS: true,
+                    allowTaint: true,
+                    foreignObjectRendering: false,
+                    imageTimeout: 0
                 });
+                
+                // Restore original styling
+                container.style.transform = originalTransform;
+                container.style.margin = originalMargin;
                 
                 canvas.toBlob(function(blob) {
                     const url = URL.createObjectURL(blob);
@@ -609,16 +641,15 @@
                     a.click();
                     document.body.removeChild(a);
                     URL.revokeObjectURL(url);
-                    
-                    // Restore scaling
-                    container.style.transform = originalTransform;
                 });
                 
                 alert('✅ Slide downloaded at 1920x1080! Check your Downloads folder.');
             } catch (error) {
                 console.error('Download error:', error);
+                // Restore on error
                 container.style.transform = originalTransform;
-                alert('❌ Download failed. Try right-clicking the slide and "Save image as..."');
+                container.style.margin = originalMargin;
+                alert('❌ Download failed. Error: ' + error.message);
             }
         }
         
