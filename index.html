@@ -16,6 +16,7 @@
             font-family: 'Outfit', sans-serif;
             background: #1a1f2e;
             padding: 20px;
+            overflow-x: hidden;
         }
         
         .controls {
@@ -142,6 +143,14 @@
             overflow: hidden;
         }
         
+        /* Wrapper to center and scale the slide properly */
+        .slide-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
         .intro-slide {
             width: 100%;
             height: 100%;
@@ -235,25 +244,32 @@
             line-height: 1.5;
         }
         
-        /* Responsive scaling */
-        @media (max-width: 2100px) {
+        /* Responsive scaling - scale down to fit screen */
+        @media (max-width: 1950px) {
             .slide-container {
-                transform: scale(0.75);
+                transform: scale(0.7);
                 margin: 20px auto;
             }
         }
         
-        @media (max-width: 1700px) {
+        @media (max-width: 1400px) {
             .slide-container {
-                transform: scale(0.6);
-                margin: 20px auto;
+                transform: scale(0.55);
+                margin: 10px auto;
             }
         }
         
-        @media (max-width: 1300px) {
+        @media (max-width: 1100px) {
             .slide-container {
                 transform: scale(0.45);
-                margin: 10px auto;
+                margin: 5px auto;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .slide-container {
+                transform: scale(0.35);
+                margin: 0 auto;
             }
         }
     </style>
@@ -436,15 +452,17 @@
         </div>
     </div>
     
-    <div class="slide-container" id="slideContainer">
-        <div class="intro-slide">
-            <div class="content-box">
-                <div class="university-name" id="displayUniName">High Point University</div>
-                <div class="divider" id="displayDivider"></div>
-                <div class="department-name" id="displayDept">Office of Accessibility Resources and Services</div>
-                <div class="department-acronym" id="displayOARS">OARS</div>
-                <div class="tutorial-title" id="displayTitle">Interactive Video Tutorial</div>
-                <div class="tutorial-subtitle" id="displaySubtitle"></div>
+    <div class="slide-wrapper">
+        <div class="slide-container" id="slideContainer">
+            <div class="intro-slide">
+                <div class="content-box">
+                    <div class="university-name" id="displayUniName">High Point University</div>
+                    <div class="divider" id="displayDivider"></div>
+                    <div class="department-name" id="displayDept">Office of Accessibility Resources and Services</div>
+                    <div class="department-acronym" id="displayOARS">OARS</div>
+                    <div class="tutorial-title" id="displayTitle">Interactive Video Tutorial</div>
+                    <div class="tutorial-subtitle" id="displaySubtitle"></div>
+                </div>
             </div>
         </div>
     </div>
